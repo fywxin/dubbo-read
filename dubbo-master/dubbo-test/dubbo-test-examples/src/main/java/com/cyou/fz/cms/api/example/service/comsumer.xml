@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+
+	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
+	<dubbo:application name="cms-service-comsumer-api" />
+	
+	<!-- 生成远程服务代理，可以和本地bean一样使用demoService -->
+	<dubbo:registry address="zookeeper://10.5.121.143:2181?backup=10.5.121.144:2181,10.5.121.145:2181&amp;client=zkclient"/>
+
+<dubbo:reference id="newsService" interface="com.cyou.fz.cms.api.service.NewsService" check="false" version="0.0.1" timeout="5000" cluster="appCluster"></dubbo:reference>
+    <dubbo:reference id="commentService" interface="com.cyou.fz.services.comment.CommentService" check="false" version="1.0.0" timeout="5000" cluster="appCluster"></dubbo:reference>
+</beans>

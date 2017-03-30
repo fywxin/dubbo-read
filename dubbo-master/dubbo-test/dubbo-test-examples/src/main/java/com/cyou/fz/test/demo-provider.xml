@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    
+    <bean id="demoServiceImpl" class="com.cyou.fz.impl.DemoServiceImpl" />
+    
+	<dubbo:service interface="com.cyou.fz.api.DemoService" ref="demoServiceImpl">
+	</dubbo:service>
+	
+<!-- 	<bean id="testServiceImpl" class="com.cyou.fz.impl.TestServiceImpl" /> -->
+    
+<!-- 	<dubbo:service interface="com.cyou.fz.api.TestService" ref="testServiceImpl"> -->
+<!-- 	</dubbo:service> -->
+	
+<!-- 	<bean id="myServiceImpl" class="com.cyou.fz.impl.MyServiceImpl" /> -->
+    
+<!-- 	<dubbo:service interface="com.cyou.fz.api.MyService" ref="myServiceImpl"> -->
+<!-- 	</dubbo:service> -->
+
+	<import resource="/dubbo-app.xml"/>
+</beans>

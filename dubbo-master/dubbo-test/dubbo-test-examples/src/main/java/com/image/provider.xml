@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd"
+	default-lazy-init="true">
+	<!-- aop动态代理(强制使用CGLIB) -->  
+<!--	<aop:aspectj-autoproxy proxy-target-class="true"></aop:aspectj-autoproxy>-->
+	<!--  服务器群集IP地址-系统参数配置 -->
+	
+    <!-- 使用zookeeper注册中心暴露服务地址 -->
+    <!-- 测试 -->
+ 
+   <!-- 正式 -->
+   <!--  
+  <dubbo:registry address="zookeeper://zk1.soa.internal.17173.com:2181?backup=zk2.soa.internal.17173.com:2181,zk3.soa.internal.17173.com:2181&amp;client=zkclient"/> 
+   -->  
+   <!--   <dubbo:registry id="zs" address="zookeeper://10.59.96.61:2181?backup=10.59.95.21:2181,10.59.95.29:2181&amp;client=zkclient" />-->
+   
+   <dubbo:service interface="com.image.api.ImgService" id="imgService" ref="imgServiceImpl" version="wjs" ></dubbo:service>
+   <bean class="com.image.ImgServiceImpl" id="imgServiceImpl"></bean>
+  <!--    -->
+</beans>

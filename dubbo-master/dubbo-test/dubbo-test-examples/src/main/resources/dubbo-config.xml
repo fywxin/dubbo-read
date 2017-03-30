@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         
+	    http://www.springframework.org/schema/beans/spring-beans.xsd         
+	    http://code.alibabatech.com/schema/dubbo         
+	    http://code.alibabatech.com/schema/dubbo/dubbo.xsd         
+	    ">
+	
+	<dubbo:application name="seed-test" />
+	<dubbo:protocol port="28810" />
+	
+	<dubbo:registry address="zookeeper://10.5.121.143:2181?backup=10.5.121.144:2181,10.5.121.145:2181&amp;client=zkclient" />
+
+	<!-- 声明需要暴露的服务接口 -->
+	<dubbo:service interface="com.cyou.fz.dubbo.trace.api.SeedService" ref="seedServiceMySqlImpl" />
+
+	<!-- 和本地bean一样实现服务 -->
+	<bean id="seedServiceMySqlImpl" class="com.seed.demo.service.SeedServiceMySqlImpl" ></bean>
+</beans>

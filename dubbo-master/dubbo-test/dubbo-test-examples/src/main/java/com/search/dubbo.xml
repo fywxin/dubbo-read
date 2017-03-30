@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xmlns:soa="http://www.17173.com/schema/soa" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.17173.com/schema/soa 
+        http://www.17173.com/schema/soa/soa.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+	<!-- Dubbo服务器公共配置 -->
+
+	 <!-- 提供方应用信息，用于计算依赖关系 -->    
+    <dubbo:application name="bbs" /> 
+    
+    <dubbo:registry address="zookeeper://zk1.soa.internal.17173.com:2181?backup=zk2.soa.internal.17173.com:2181,zk3.soa.internal.17173.com:2181" />  
+     
+    <!-- 用dubbo协议在20880端口暴露服务 端口-1自动分配端口 -->    
+    <dubbo:protocol name="dubbo"  port="-1"  />  
+    
+    <soa:extension appPassword="" authSkip="true" loginSkip="false" logSkip="true"></soa:extension>
+	
+	<dubbo:reference interface="com.cyou.fz.services.search.api.IndexService" id="indexService" check="false"  timeout="600000" version="1.0.1"></dubbo:reference>
+
+<!-- 	<dubbo:reference interface="com.cyou.fz.services.search.api.SearchService" id="searchService" check="false"  timeout="600000" version="1.0.1" url="10.59.96.140:20880"></dubbo:reference> -->
+	<dubbo:reference interface="com.cyou.fz.services.search.api.SearchService" id="searchService" check="false"  timeout="600000" version="1.0.1" ></dubbo:reference>
+</beans>

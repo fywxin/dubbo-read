@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    
+    
+    <dubbo:application name="NODE-C"  />
+    
+    <dubbo:protocol port="20883"></dubbo:protocol>
+    
+ 	<dubbo:registry id="zkRegistry" address="zookeeper://10.5.121.143:2181?backup=10.5.121.144:2181,10.5.121.145:2181&amp;client=zkclient" file="c.txt" />
+    
+    <dubbo:reference interface="com.seed.api.NodedService" id="nodedService"></dubbo:reference>
+    
+    <dubbo:reference interface="com.seed.api.NodeeService" id="nodeeService"></dubbo:reference>
+    
+    <bean id="nodecServiceImpl" class="com.seed.nodec.NodecServiceImpl">
+    	<property name="nodedService" ref="nodedService"></property>
+    	<property name="nodeeService" ref="nodeeService"></property>
+    </bean>
+    
+    <dubbo:service interface="com.seed.api.NodecService" ref="nodecServiceImpl"></dubbo:service>
+    
+<!--     <dubbo:reference interface="com.cyou.fz.dubbo.trace.api.SeedService" check="false" id="seedService"></dubbo:reference> -->
+    
+<!--     <bean class="com.cyou.fz.dubbo.trace.SeedCollector" id="seedCollector"> -->
+<!--     	<property name="seedService" ref="seedService"></property> -->
+<!--     </bean> -->
+</beans>

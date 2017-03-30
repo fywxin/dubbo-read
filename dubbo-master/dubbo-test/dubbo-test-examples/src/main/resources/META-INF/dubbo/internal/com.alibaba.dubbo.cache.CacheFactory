@@ -1,0 +1,2 @@
+#encache=com.cyou.fz.dubbo.cache.encache.EncacheFactory
+#mcache=com.cyou.fz.dubbo.cache.memcache.MemcacheFactory

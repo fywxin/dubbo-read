@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seed.demo.dao.ISpanDao">
+
+	<resultMap type="SpanPo" id="spanPo">
+		<id property="id" column="id" />
+		<result property="pid" column="pid" />
+		<result property="seed" column="seed" />
+		<result property="appName" column="app_name" />
+		<result property="duration" column="duration" />
+	</resultMap>
+
+	<insert id="save" parameterType="SpanPo">
+		INSERT
+		INTO
+		SOA_SPAN
+		VALUES(#{id},  #{pid}, #{seed}, #{appName}, #{duration})
+	</insert>
+
+	<select id="getBySeed" parameterType="String" resultType="SpanPo">
+		SELECT *
+		FROM SOA_SPAN
+		WHERE SEED = #{seed}
+	</select>
+	<select id="getByPid" parameterType="String" resultType="SpanPo">
+		SELECT *
+		FROM SOA_SPAN
+		<where>
+			1=1 
+			<if test="pid !=null">
+				AND pid = #{pid}
+			</if>
+			<if test="pid ==null">
+				AND pid is null
+			</if>
+		</where>
+	</select>
+	
+	<select id="getAll" resultType="SpanPo">
+		SELECT * FROM SOA_SPAN
+	</select>
+</mapper>

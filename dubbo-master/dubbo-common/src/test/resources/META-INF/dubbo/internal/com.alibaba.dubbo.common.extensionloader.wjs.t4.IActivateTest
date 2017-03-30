@@ -1,0 +1,3 @@
+activateTestImpl1 = com.alibaba.dubbo.common.extensionloader.wjs.t4.impl.ActivateTestImpl1
+activateTestImpl2 = com.alibaba.dubbo.common.extensionloader.wjs.t4.impl.ActivateTestImpl2
+activateTestImpl3 = com.alibaba.dubbo.common.extensionloader.wjs.t4.impl.ActivateTestImpl3

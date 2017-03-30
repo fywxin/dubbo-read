@@ -1,0 +1,5 @@
+#severauthfilter=com.cyou.fz.dubbo.filter.SeverAuthFilter
+#clientauthfilter=com.cyou.fz.dubbo.filter.ClientAuthFilter
+#hawkeyeFilter=com.cyou.fz.dubbo.filter.HawkeyeFilter
+#chainFilter=com.cyou.fz.dubbo.filter.ChainFilter
+#treeFilter=com.cyou.fz.soa.filter.TreeFilter

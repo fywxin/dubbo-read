@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	
+<!-- 	<dubbo:protocol name="http" server="servlet" client="commons"></dubbo:protocol> -->
+
+    <dubbo:application name="demo-test"  />
+    
+    <dubbo:protocol port="20880"></dubbo:protocol>
+    
+<!--     <dubbo:registry id="solrRegistry" address="zookeeper://10.59.96.61:2181?backup=10.59.95.21:2181&amp;client=zkclient"/>   -->
+    
+ 	<dubbo:registry id="zkRegistry" address="zookeeper://10.5.121.143:2181?backup=10.5.121.144:2181,10.5.121.145:2181&amp;client=zkclient" />
+ 
+    <dubbo:monitor protocol="registry" />
+    
+    <dubbo:reference interface="com.cyou.fz.dubbo.cache.memcache.Imemcache" id="imemcache" url="memcached://10.5.121.145:11211" ></dubbo:reference>
+</beans>

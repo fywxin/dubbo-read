@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+        
+    <!-- ### 下为配置范例，请注意在正式部署中进行删除 ### -->
+
+	<!-- 需要订阅的Dubbo服务,check=false不在启动时检查依赖的服务是否存在 -->
+	<dubbo:reference id="newsServiceConsumer" interface="com.cyou.fz.cms.api.service.NewsService" check="false" version="1.0.1" timeout="16000" />
+	
+	<dubbo:reference id="vlogServiceConsumer" interface="com.cyou.fz.cms.api.service.VlogService" check="false" version="1.0.1" />
+	
+	<dubbo:reference id="commentServiceConsumer" interface="com.cyou.fz.services.comment.CommentService" check="false" version="1.0.0" />
+	<import resource="/dubbo-app.xml"/>
+
+</beans>

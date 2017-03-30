@@ -1,0 +1,3 @@
+test3Impl1 = com.alibaba.dubbo.common.extensionloader.wjs.t3.impl.Test3Impl1
+test3Impl2 = com.alibaba.dubbo.common.extensionloader.wjs.t3.impl.Test3Impl2
+test3Impl3 = com.alibaba.dubbo.common.extensionloader.wjs.t3.impl.Test3Impl3

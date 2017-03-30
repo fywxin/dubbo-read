@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+        
+<!--         <dubbo:application name="generic-consumer"  /> -->
+        
+    <dubbo:reference id="searchService" interface="com.cyou.fz.search.api.SearchService" version="1.0" />
+    
+    <dubbo:reference id="indexServic" interface="com.cyou.fz.search.api.IndexService" version="1.0" ></dubbo:reference>
+
+</beans>

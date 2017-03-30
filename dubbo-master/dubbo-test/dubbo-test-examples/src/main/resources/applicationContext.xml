@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/beans 
+   http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+   http://www.springframework.org/schema/aop 
+   http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+   http://www.springframework.org/schema/tx 
+   http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+   http://www.springframework.org/schema/context      
+   http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+	
+	<!-- 配置c3p0路径 -->
+	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:conf.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 引用dubbo配置 -->
+	<import resource="dubbo-config.xml" />
+	
+	<!-- c3p0属性配置 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="${driverClass}" />
+		<!-- 数据库连接地址 -->
+		<property name="jdbcUrl" value="${jdbcUrl}" />
+		<property name="user" value="${user}" />
+		<property name="password" value="${password}" />
+		<!-- 指定连接池里最小连接数 -->
+		<property name="minPoolSize" value="${minPoolSize}" />
+		<!-- 指定连接池里最大连接数 -->
+		<property name="maxPoolSize" value="${maxPoolSize}" />
+		<!-- 连接最大空闲时间，超过时间将被丢弃,单位是秒 -->
+		<property name="maxIdleTime" value="${maxIdleTime}" />
+		<!-- 当连接池里面的连接用完的时候，C3P0一次获取的新的连接数 -->
+		<property name="acquireIncrement" value="${acquireIncrement}" />
+		<!-- 指定连接池里最大缓存多少个Statement对象 -->
+		<property name="maxStatements" value="${maxStatements}" />
+		<!-- 初始创建连接的数量 -->
+		<property name="initialPoolSize" value="${initialPoolSize}" />
+		<!-- 每隔XX秒检查连接池里的空闲连接 ，单位是秒 -->
+		<property name="idleConnectionTestPeriod" value="${idleConnectionTestPeriod}" />
+	</bean>
+	
+	<bean id="sqlSessionFactoryBuilder" class="com.cyou.fz.common.mybatis.paging.pagination.proxy.MySqlSessionFactoryBuilder"></bean>
+	
+	<!-- MyBatis配置 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 --> 
+		<property name="typeAliasesPackage" value="com.seed.demo.po" />
+		<property name="mapperLocations" value="classpath:mybatis/*.xml" />
+		<property name="configLocation" value="classpath:mybatis.xml" />
+		<property name="sqlSessionFactoryBuilder" ref="sqlSessionFactoryBuilder"/>
+	</bean>
+
+	<!-- 自动适配Dao目录底下的Dao接口 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.seed.demo.dao" />
+		<!-- 以MyBatisRepository标识MyBatis的DAO -->
+		<property name="annotationClass" value="com.cyou.fz.common.mybatis.MyBatisRepository" />
+	</bean>
+
+	<!-- 定义事务管理器（声明式的事务） -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="save*" rollback-for="java.lang.Exception" />
+			<tx:method name="add*" rollback-for="java.lang.Exception" />
+			<tx:method name="update*" rollback-for="java.lang.Exception" />
+			<!-- 虽然与save*重复,显式声明 -->
+			<tx:method name="saveOrUpdate*" rollback-for="java.lang.Exception" />
+			<tx:method name="del*" rollback-for="java.lang.Exception" />
+			<!-- 虽然与del*重复,显式声明 -->
+			<tx:method name="delete*" rollback-for="java.lang.Exception" />
+			<tx:method name="cancel*" rollback-for="java.lang.Exception" />
+			<tx:method name="callBack*" rollback-for="java.lang.Exception" />
+			<tx:method name="set*" rollback-for="java.lang.Exception" />
+			<tx:method name="do*" rollback-for="java.lang.Exception" />
+			<tx:method name="off*" rollback-for="java.lang.Exception" />
+			<!-- 以下方法开头只查询无事务 -->
+			<tx:method name="*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut id="interceptorPointCuts"
+			expression="execution(* com.seed.demo.service.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="interceptorPointCuts" />
+	</aop:config>
+	<context:annotation-config />
+	<context:component-scan base-package="com.cyou" />
+	<!-- 用于注入Spring上下文ApplicationContext，以在应用程序中提供更为方便的控制 -->
+	<bean id="springContextManage" class="com.cyou.fz.common.spring.SpringContextAware" />
+	
+</beans>
+
+		 

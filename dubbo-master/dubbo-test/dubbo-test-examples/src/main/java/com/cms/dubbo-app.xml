@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+	<!-- Dubbo服务器公共配置 -->
+
+	<!-- 应用名 -->
+	<dubbo:application name="CMS" />
+
+	<!-- Zookeeper中心服务器配置 -->
+	<dubbo:registry address="zookeeper://10.5.121.143:2181?backup=10.5.121.144:2181,10.5.121.145:2181&amp;client=zkclient" />
+
+	<!-- <dubbo:registry -->
+	<!-- address="zookeeper://127.0.0.1:2181?client=zkclient" /> -->
+
+</beans>
