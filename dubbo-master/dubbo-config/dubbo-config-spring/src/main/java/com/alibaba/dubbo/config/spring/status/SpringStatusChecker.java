@@ -58,6 +58,7 @@ public class SpringStatusChecker implements StatusChecker {
             Method method = null;
             while (cls != null && method == null) {
                 try {
+                    //获取所有xml配置文件的路径 eg:META-INF/spring/applicationContext.xml
                     method = cls.getDeclaredMethod("getConfigLocations", new Class<?>[0]);
                 } catch (NoSuchMethodException t) {
                     cls = cls.getSuperclass();

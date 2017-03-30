@@ -33,6 +33,8 @@ import com.alibaba.dubbo.config.spring.ServiceBean;
 
 /**
  * DataSourceStatusChecker
+ * 数据库连接状态获取
+ *  dataSourcejdbc:mysql://10.59.105.29:3315/soa_platform?useUnicode=true&characterEncoding=UTF-8(MySQL-5.6.11-log)
  * 
  * @author william.liangf
  */

@@ -63,9 +63,10 @@ import com.alibaba.dubbo.rpc.Protocol;
 public class DubboBeanDefinitionParser implements BeanDefinitionParser {
     
     private static final Logger logger = LoggerFactory.getLogger(DubboBeanDefinitionParser.class);
-	
+
+    //标签对应类 如ProviderConfig
     private final Class<?> beanClass;
-    
+    //标签对象id是否必须
     private final boolean required;
 
     public DubboBeanDefinitionParser(Class<?> beanClass, boolean required) {
@@ -82,7 +83,9 @@ public class DubboBeanDefinitionParser implements BeanDefinitionParser {
         RootBeanDefinition beanDefinition = new RootBeanDefinition();
         beanDefinition.setBeanClass(beanClass);
         beanDefinition.setLazyInit(false);
+        //spring bean对象id，自定义标签属性 id="xx" 值
         String id = element.getAttribute("id");
+        //id=“xx” 不存在, 由name或其他属性适配
         if ((id == null || id.length() == 0) && required) {
         	String generatedBeanName = element.getAttribute("name");
         	if (generatedBeanName == null || generatedBeanName.length() == 0) {
@@ -136,6 +139,7 @@ public class DubboBeanDefinitionParser implements BeanDefinitionParser {
         }
         Set<String> props = new HashSet<String>();
         ManagedMap parameters = null;
+        //bean 对象属性值适配
         for (Method setter : beanClass.getMethods()) {
             String name = setter.getName();
             if (name.length() > 3 && name.startsWith("set")

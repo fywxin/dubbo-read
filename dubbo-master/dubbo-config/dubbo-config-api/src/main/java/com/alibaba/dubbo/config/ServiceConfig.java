@@ -157,6 +157,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
         if (interfaceName == null || interfaceName.length() == 0) {
             throw new IllegalStateException("<dubbo:service interface=\"\" /> interface not allow null!");
         }
+        //ProviderConfig 未定义为空，则new ProviderConfig() 并设置默认值
         checkDefault();
         if (provider != null) {
             if (application == null) {
@@ -191,6 +192,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
                 monitor = application.getMonitor();
             }
         }
+        //泛化服务
         if (ref instanceof GenericService) {
             interfaceClass = GenericService.class;
             if (StringUtils.isEmpty(generic)) {
@@ -202,6 +204,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
             } catch (ClassNotFoundException e) {
                 throw new IllegalStateException(e.getMessage(), e);
             }
+            //判断 interfaceClass 中是否有findXxx 方法 <dubbo:method name="findXxx"
             checkInterfaceAndMethods(interfaceClass, methods);
             checkRef();
             generic = Boolean.FALSE.toString();
@@ -220,6 +223,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
                 throw new IllegalStateException("The local implemention class " + localClass.getName() + " not implement interface " + interfaceName);
             }
         }
+        //代理？没明白
         if(stub !=null){
             if(stub=="true"){
                 stub=interfaceName+"Stub";
@@ -250,6 +254,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private void doExportUrls() {
         List<URL> registryURLs = loadRegistries(true);
+        //按协议暴露
         for (ProtocolConfig protocolConfig : protocols) {
             doExportUrlsFor1Protocol(protocolConfig, registryURLs);
         }
@@ -397,6 +402,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
             map.put("generic", generic);
             map.put("methods", Constants.ANY_VALUE);
         } else {
+            //jar包版本
             String revision = Version.getVersion(interfaceClass, version);
             if (revision != null && revision.length() > 0) {
                 map.put("revision", revision);

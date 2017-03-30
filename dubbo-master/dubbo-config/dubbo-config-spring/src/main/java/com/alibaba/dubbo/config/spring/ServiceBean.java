@@ -43,6 +43,9 @@ import com.alibaba.dubbo.config.spring.extension.SpringExtensionFactory;
 
 /**
  * ServiceFactoryBean
+ * spring 执行顺序 http://blog.csdn.net/candyzh/article/details/52700595
+ * constructor -> postConstruct -> afterPropertiesSet -> onApplicationEvent -> onApplicationEvent
+ *
  * 
  * @author william.liangf
  * @export
@@ -102,6 +105,7 @@ public class ServiceBean<T> extends ServiceConfig<T> implements InitializingBean
 
     public void onApplicationEvent(ApplicationEvent event) {
         if (ContextRefreshedEvent.class.getName().equals(event.getClass().getName())) {
+            //延时暴露服务
         	if (isDelay() && ! isExported() && ! isUnexported()) {
                 if (logger.isInfoEnabled()) {
                     logger.info("The service ready on spring started. service: " + getInterface());
@@ -120,12 +124,18 @@ public class ServiceBean<T> extends ServiceConfig<T> implements InitializingBean
         return supportedApplicationListener && (delay == null || delay.intValue() == -1);
     }
 
+    /**
+     * ServiceBean 设置关联 ProviderConfig ApplicationConfig ModuleConfig RegistryConfig MonitorConfig ProtocolConfig
+     * @throws Exception
+     */
     @SuppressWarnings({ "unchecked", "deprecation" })
 	public void afterPropertiesSet() throws Exception {
     	///服务提供者缺省值：获取系统中所有ProviderConfig.class  服务提供者缺省值对象
         if (getProvider() == null) {
+            //服务提供者配置
             Map<String, ProviderConfig> providerConfigMap = applicationContext == null ? null  : BeanFactoryUtils.beansOfTypeIncludingAncestors(applicationContext, ProviderConfig.class, false, false);
             if (providerConfigMap != null && providerConfigMap.size() > 0) {
+                //协议配置
                 Map<String, ProtocolConfig> protocolConfigMap = applicationContext == null ? null  : BeanFactoryUtils.beansOfTypeIncludingAncestors(applicationContext, ProtocolConfig.class, false, false);
                 if ((protocolConfigMap == null || protocolConfigMap.size() == 0)
                         && providerConfigMap.size() > 1) { // 兼容旧版本
@@ -140,6 +150,7 @@ public class ServiceBean<T> extends ServiceConfig<T> implements InitializingBean
                     }
                 } else {
                     ProviderConfig providerConfig = null;
+                    //只能有一个缺省协议，用于多协议
                     for (ProviderConfig config : providerConfigMap.values()) {
                         if (config.isDefault() == null || config.isDefault().booleanValue()) {
                             if (providerConfig != null) {
